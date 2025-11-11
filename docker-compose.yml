@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: spms-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: spms
+      MYSQL_USER: spms
+      MYSQL_PASSWORD: spms
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    command: 
+    networks:
+      - spms-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: spms-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    # 无需密码
+    command: redis-server --requirepass ""
+    volumes:
+      - redis_data:/data
+    networks:
+      - spms-network
+
+  # Server
+  spms-server:
+    build:
+      context: ./SPMS-Server
+      dockerfile: Dockerfile
+      args:
+        - MAVEN_OPTS=-Dmaven.repo.local=/root/.m2/repository
+    container_name: spms-server
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - server_storage:/home/
+    networks:
+      - spms-network
+  # Web
+  spms-web:
+    build:
+      context: ./SPMS-Web
+      dockerfile: Dockerfile
+      args:
+        - NODE_OPTIONS=--max-old-space-size=4096
+    container_name: spms-web
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - spms-server
+    volumes:
+      - server_storage:/home/
+    networks:
+      - spms-network
+# Volumes
+volumes:
+  mysql_data:
+  redis_data:
+  server_storage:
+
+# Virtual Networks
+networks:
+  spms-network:
+    driver: bridge
