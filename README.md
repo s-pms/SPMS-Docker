@@ -12,10 +12,10 @@
 
 | 服务             | 容器端口 | 映射端口 | 访问地址              |
 | ---------------- | -------- | -------- | --------------------- |
-| 前端(Nginx)      | 80       | 80       | http://localhost      |
-| 后端(SpringBoot) | 8080     | 8080     | http://localhost:8080 |
-| 数据库(MySQL)    | 3306     | 3306     | localhost:3306        |
-| 缓存(Redis)      | 6379     | 6379     | localhost:6379        |
+| 前端(Nginx)      | 80       | 81       | http://localhost:81   |
+| 后端(SpringBoot) | 8080     | 8081     | http://localhost:8081 |
+| 数据库(MySQL)    | 3306     | 3307     | localhost:3307        |
+| 缓存(Redis)      | 6379     | 6380     | localhost:63763809    |
 
 ## 部署步骤
 
@@ -34,11 +34,3 @@ chmod +x deploy.sh
 # 执行一键部署
 ./deploy.sh
 ```
-
-### 3. 访问应用
-
-部署完成后，可以通过以下地址访问：
-- 前端界面：http://localhost
-- 后端API：http://localhost:8080
-- 数据库：localhost:3306 (用户: spms, 密码: spms)
-- Redis：localhost:6379

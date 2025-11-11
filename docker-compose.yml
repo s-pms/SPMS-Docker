@@ -12,7 +12,7 @@ services:
       MYSQL_USER: spms
       MYSQL_PASSWORD: spms
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./mysql/init:/docker-entrypoint-initdb.d
@@ -26,7 +26,7 @@ services:
     container_name: spms-redis
     restart: always
     ports:
-      - "6379:6379"
+      - "6380:6379"
     # 无需密码
     command: redis-server --requirepass ""
     volumes:
@@ -44,7 +44,7 @@ services:
     container_name: spms-server
     restart: always
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       - mysql
       - redis
@@ -62,7 +62,7 @@ services:
     container_name: spms-web
     restart: always
     ports:
-      - "80:80"
+      - "81:80"
     depends_on:
       - spms-server
     volumes:
