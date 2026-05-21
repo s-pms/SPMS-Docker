@@ -38,8 +38,6 @@ services:
     build:
       context: ./SPMS-Server
       dockerfile: Dockerfile
-      args:
-        - MAVEN_OPTS=-Dmaven.repo.local=/root/.m2/repository
     container_name: spms-server
     restart: always
     ports:
