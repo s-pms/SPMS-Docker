@@ -22,7 +22,7 @@ services:
 
   # Redis
   spms-redis:
-    image: redis:7-alpine
+    image: redis:7
     container_name: spms-redis
     restart: always
     ports:
