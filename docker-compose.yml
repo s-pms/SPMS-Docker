@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   # MySQL
-  mysql:
+  spms-mysql:
     image: mysql:8.0
     container_name: spms-mysql
     restart: always
@@ -12,25 +12,25 @@ services:
       MYSQL_USER: spms
       MYSQL_PASSWORD: spms
     ports:
-      - "3307:3306"
+      - "13306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - spms_mysql_data:/var/lib/mysql
       - ./mysql/init:/docker-entrypoint-initdb.d
-    command: 
+    command:
     networks:
       - spms-network
 
   # Redis
-  redis:
+  spms-redis:
     image: redis:7-alpine
     container_name: spms-redis
     restart: always
     ports:
-      - "6380:6379"
+      - "16379:6379"
     # 无需密码
     command: redis-server --requirepass ""
     volumes:
-      - redis_data:/data
+      - spms_redis_data:/data
     networks:
       - spms-network
 
@@ -44,12 +44,12 @@ services:
     container_name: spms-server
     restart: always
     ports:
-      - "8081:8080"
+      - "18080:8080"
     depends_on:
-      - mysql
-      - redis
+      - spms-mysql
+      - spms-redis
     volumes:
-      - server_storage:/home/
+      - spms_server_data:/home/
     networks:
       - spms-network
   # Web
@@ -62,20 +62,20 @@ services:
     container_name: spms-web
     restart: always
     ports:
-      - "81:80"
+      - "180:80"
     depends_on:
       - spms-server
     volumes:
-      - server_storage:/home/
+      - spms_server_data:/home/
     networks:
       - spms-network
 # Volumes
 volumes:
-  mysql_data:
-  redis_data:
-  server_storage:
+  spms_mysql_data:
+  spms_redis_data:
+  spms_server_data:
 
-# Virtual Networks
+    # Virtual Networks
 networks:
   spms-network:
     driver: bridge
