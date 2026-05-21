@@ -57,8 +57,8 @@ pull_image_with_retry() {
                         fi
                         ;;
                     "redis:7-alpine")
-                        if docker pull registry.docker-cn.com/redis:7-alpine; then
-                            docker tag registry.docker-cn.com/redis:7-alpine redis:7-alpine
+                        if docker pull registry.docker-cn.com/redis:alpine; then
+                            docker tag registry.docker-cn.com/redis:alpine redis:alpine
                             echo "成功使用国内镜像源拉取: $image"
                             return 0
                         fi
