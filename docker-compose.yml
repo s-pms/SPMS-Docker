@@ -16,7 +16,6 @@ services:
     volumes:
       - spms_mysql_data:/var/lib/mysql
       - ./mysql/init:/docker-entrypoint-initdb.d
-    command:
     networks:
       - spms-network
 
