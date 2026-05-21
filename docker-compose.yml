@@ -38,8 +38,6 @@ services:
       dockerfile: Dockerfile
     container_name: spms-server
     restart: always
-    ports:
-      - "18080:8080"
     depends_on:
       - spms-mysql
       - spms-redis
@@ -57,7 +55,7 @@ services:
     container_name: spms-web
     restart: always
     ports:
-      - "180:80"
+      - "18080:80"
     depends_on:
       - spms-server
     volumes:
