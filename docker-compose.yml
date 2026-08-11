@@ -38,7 +38,6 @@ services:
       dockerfile: Dockerfile
     container_name: spms-server
     restart: always
-    user: "1000:1000"
     depends_on:
       - spms-mysql
       - spms-redis
@@ -55,7 +54,6 @@ services:
         - NODE_OPTIONS=--max-old-space-size=4096
     container_name: spms-web
     restart: always
-    user: "1000:1000"
     ports:
       - "18080:8080"
     depends_on:
